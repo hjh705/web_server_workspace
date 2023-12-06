@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%--
+	jsp 주석
+	- 단순출력 EL
+	- 분기 / 반복처리 JSTL
+	- 자바코드 작성 scriptlet
+ --%>
+<!doctype html>
+	<html>
+		<head>
+			<meta charset="utf-8"/>
+			<title>개인취향검사 결과 Servlet-JSP</title>
+		</head>
+		<body>
+			<h1>개인취향검사 결과 Servlet-JSP</h1>
+			<p>반갑습니다. %{param.name}님</p>
+			<p>${param.color}색을 좋아하십니다.</p>
+			<p>동물은 ${param.animal}를 좋아하십니다.</p>
+			<p>중국집 음식 중에는 ${paramValues.food}를 좋아하십니다.</p>
+		</body>
+	</html>
