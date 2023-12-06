@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
+    <fullyQualifiedTypeName name="java.util.Arrays"/>
+    <fullyQualifiedTypeName name="java.lang.ArrayStoreException"/>
+    <fullyQualifiedTypeName name="org.apache.catalina.tribes.util.Arrays"/>
+    <fullyQualifiedTypeName name="com.sh.web.servlet.LifeCycleServlet"/>
+    <fullyQualifiedTypeName name="javax.annotation.PostConstruct"/>
+</qualifiedTypeNameHistroy>
