@@ -7,6 +7,12 @@
   <version>1.0-SNAPSHOT</version>
   <name>menu Maven Webapp</name>
   <url>http://maven.apache.org</url>
+
+  <properties>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+  </properties>
+
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
     <dependency>
