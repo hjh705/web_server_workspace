@@ -14,22 +14,28 @@
 	<ul>
 		<li>
 			<!-- 서버 절대주소 요청시 /hello-web context-path(앱이름)를 반드시 포함해야 한다 -->
-			<a href="/hello-web/servlet/01_testPerson.html">GET 취향검사</a>
+			<a href="${pageContext.request.contextPath}/servlet/01_testPerson.html">GET 취향검사</a>
 		</li>
 		<li>
-			<a href="/hello-web/servlet/02_testPerson.html">POST 취향검사</a>
+			<a href="${pageContext.request.contextPath}/servlet/02_testPerson.html">POST 취향검사</a>
 		</li>
 		<li>
-			<a href="/hello-web/servlet/03_testPerson.html">Servlet-JSP 취향검사</a>
+			<a href="${pageContext.request.contextPath}/servlet/03_testPerson.html">Servlet-JSP 취향검사</a>
 		</li>
 		<li>
-			<a href="/hello-web/lifecycle.do">Servlet 생명주기</a>
+			<a href="${pageContext.request.contextPath}/lifecycle.do">Servlet 생명주기</a>
 		</li>
 		<li>
-			<a href="/hello-web/abc.do">Redirect</a>
+			<a href="${pageContext.request.contextPath}/abc.do">Redirect</a>
 		</li>
 	</ul>
 	
 	<h2>JSP</h2>
+	<ul>
+		<li><a href="${pageContext.request.contextPath}/jsp/01_basic.jsp">Basics</a></li>
+		<li><a href="${pageContext.request.contextPath}/el.do?name=아이패드&option=red&option=128">EL</a></li>
+		<li><a href="${pageContext.request.contextPath}/jstl.do?name=아이패드&option=red&option=128">JSTL</a></li>
+	</ul>
+
 </body>
 </html>

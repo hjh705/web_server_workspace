@@ -10,9 +10,6 @@
     <title>Menu</title>
 </head>
 <body>
-    <h1>Menu</h1>
-    <%-- client요청(절대주소)시 context-path(/menu)부터 시작해야 한다. --%>
-    <%-- context 주소 이후 --%>
-    <a href="/menu/menu.jsp">메뉴!</a>
+<h1>Together</h1>
 </body>
 </html>
