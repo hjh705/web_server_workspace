@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+    <!--
+    #{id} 전달된 id값으로 치환
+    id 태그식별자
+    resultType ResultSet한행이 변환될 타입(fullname | alias)
+-->
+    <select id="findById" resultType="com.sh.mybatis.member.model.entity.Member">
+        select
+        *
+        from
+        member
+        where
+        id = #{id}
+    </select>
+
+</mapper>
