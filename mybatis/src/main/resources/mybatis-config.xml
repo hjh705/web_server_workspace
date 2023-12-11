@@ -12,6 +12,21 @@
         <setting name="mapUnderscoreToCamelCase" value="false"/>
     </settings>
 
+    <!-- 반복해서 달아주는 구문을 단축해서 쓰기 위해 작성  -->
+    <typeAliases>
+<!--        <typeAlias type="com.sh.mybatis.member.model.entity.Member" alias="member"/>-->
+    <!--
+         package 하위 모든 클래스가 소문자로 시작되는 별칭으로 등록
+         - Member -> member
+         - MemberAddress -> memberAddress
+    -->
+            <package name="com.sh.mybatis"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler handler="com.sh.mybatis.common.ListStringTypeHandler"/>
+    </typeHandlers>
+
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
