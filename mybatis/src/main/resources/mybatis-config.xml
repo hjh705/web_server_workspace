@@ -16,6 +16,11 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
+            <!--
+            POOLED DBCP 설정(Database Connection Pool)
+            - 매번 Connection 생성/폐기하면 효율성이 떨어지므로, Connection 다수개를 생성해서 Pool에서 관리
+              사용 후 반납하며느 폐기하지 않고 이후 재사용하게 된다.
+            -->
                 <property name="driver" value="${driver}"/>
                 <property name="url" value="${url}"/>
                 <property name="username" value="${username}"/>
