@@ -20,7 +20,7 @@ create table member (
     birthday date,
     email varchar2(100),
     phone char(11),
-    bobby varchar2(500),
+    hobby varchar2(500),
     point number default 1000,
     reg_date date default sysdate,
     constraint pk_member_id primary key(id),
@@ -41,4 +41,5 @@ values('admin','1234','관리자','A','M', to_date('19971020','yyyymmdd'), 'admi
 
 
 select * from member;
+
 commit;

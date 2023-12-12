@@ -5,10 +5,7 @@ import com.sh.mybatis.member.model.entity.Gender;
 import com.sh.mybatis.member.model.entity.Member;
 import com.sh.mybatis.member.model.entity.Role;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,6 +36,7 @@ public class MemberServiceTest {
 
     /**
      * mybatis는 ResultSet의 데이터를 vo클래스 객체로 자동변환한다.
+     * - 컬럼명과 필드명이 일치해야만 한다. (mybatis-config.xml에 언더스코어 <-> 카멜케이싱 호환 설정 필수)
      * - varchar2 / char <-> String
      * - number <-> int / double
      * - date <-> java.util.date(기본값), java.time.LocalDate
