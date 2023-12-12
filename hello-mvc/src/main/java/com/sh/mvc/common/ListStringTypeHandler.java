@@ -1,4 +1,4 @@
-package com.sh.mybatis.common;
+package com.sh.mvc.common;
 
 //     Java 와 JDBC 간의 자동 변환이 안되는 경우 직접 클래스를 만들어서 설정해줘야만 한다
 //     Java의 List는 JDBC 에선 varchar2로 반환하기에 별도 과정이 필요
