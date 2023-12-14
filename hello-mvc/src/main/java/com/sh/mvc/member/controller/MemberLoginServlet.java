@@ -61,7 +61,7 @@ public class MemberLoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1. 사용자 입력값 인코딩 처리
-        req.setCharacterEncoding("utf-8");
+        // req.setCharacterEncoding("utf-8");
 
         // 2. 사용자 입력값을 가져오기
         String id = req.getParameter("id");// form의 name값 가져오기
@@ -74,6 +74,9 @@ public class MemberLoginServlet extends HttpServlet {
         // 로그인 실패 (존재하지 않는 id | password가 틀린 경우)
         Member member = memberService.findById(id);
         System.out.println(member);
+
+        //세션 생성 / 가져오기
+        // getSession(), getSession(true) : 세션이
         HttpSession session = req.getSession();
         if(member != null && password.equals(member.getPassword())){
             //로그인 성공
@@ -89,7 +92,8 @@ public class MemberLoginServlet extends HttpServlet {
 
         // 4. view단 처리 (forwarding) || redirect 처리 (url을 변경해야할 때 사용함)
         // DML 요청(POST), 로그인 요청 등은 반드시 redirect로 처리해서 URL을 변경해야 한다
-        resp.sendRedirect(req.getContextPath());
+        // / 가 없으면 브라우저에서 붙여주는 과정을 추가한 뒤 실행되기에 마지막에 붙여주는 것이 좋다
+        resp.sendRedirect(req.getContextPath() + "/");
 
     }
 

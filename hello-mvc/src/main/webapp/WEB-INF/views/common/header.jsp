@@ -15,7 +15,8 @@
     <script src="${pageContext.request.contextPath}/js/tailwind.config.js"></script>
     <script>
         <c:if test="${msg != null}">
-            alert("${msg}");
+            alert(`${msg}`)
+            // 여러줄 작성을 위해 `` 을 사용해 감싸준다
             <%--session 속성 msg를 제거해서 1회만 출력되도록 한다 --%>
             <c:remove var="msg" scope="session"/>
         </c:if>
