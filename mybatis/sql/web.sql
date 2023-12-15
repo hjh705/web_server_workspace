@@ -23,11 +23,16 @@ create table member (
     hobby varchar2(500),
     point number default 1000,
     reg_date date default sysdate,
-    constraint pk_member_id primary key(id),
-    constraint ck_member_gender check(gender in('M','F')),
-    constraint ck_member_role check(role in('U','A')),
-    constraint ck_member_point check(point>=0)
+    constraints pk_member_id primary key(id),
+    constraints uq_member_email unique(email),
+    constraints ck_member_gender check(gender in('M','F')),
+    constraints ck_member_role check(role in('U','A')),
+    constraints ck_member_point check(point>=0)
 );
+
+
+--alter table member
+--add constraints uq_member_email unique(email);
 
 insert into member 
 values('abcde','1234','아무개','U','M', to_date('20000909','yyyymmdd'), 'abcde@naver.com', '01012340909', '운동,등산,독서', default, default);
@@ -41,5 +46,15 @@ values('admin','1234','관리자','A','M', to_date('19971020','yyyymmdd'), 'admi
 
 
 select * from member;
+--delete from member where id in ('sejong');
+
+--update
+--    member
+--set
+--    password = '9FipNtrDaOHuV+j/mI/im1JzeI4r04M496uRbGxYJagaVotqCfHIfBzDd5OZdFoOJPI52pbZaE+iWvLFFZHBhg=='
+--where
+--    id = 'qwerty';
+
+
 
 commit;

@@ -9,7 +9,7 @@
         <!-- NULL 데이터가 전달된 경우 NULL 값 처리 -->
         <setting name="jdbcTypeForNull" value="NULL"/>
         <!-- member_name컬럼은 memberName과 매칭  -->
-        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
     <!-- 반복해서 달아주는 구문을 단축해서 쓰기 위해 작성  -->

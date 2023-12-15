@@ -1,5 +1,6 @@
 package com.sh.mvc.member.controller;
 
+import com.sh.mvc.common.HelloMvcUtils;
 import com.sh.mvc.member.model.entity.Member;
 import com.sh.mvc.member.model.service.MemberService;
 
@@ -65,7 +66,7 @@ public class MemberLoginServlet extends HttpServlet {
 
         // 2. 사용자 입력값을 가져오기
         String id = req.getParameter("id");// form의 name값 가져오기
-        String password = req.getParameter("password");
+        String password = HelloMvcUtils.getEncryptedPassword(req.getParameter("password"),id);
         System.out.println(id + ", " + password);
 
         // 3. 업무 로직을 작성 (이번 요청에 처리할 작업) -> login(인증)
@@ -84,16 +85,18 @@ public class MemberLoginServlet extends HttpServlet {
             // pageContext, request, session, application 컨텍스트 객체 중에 login처리에 적합한 것은 session
             // session 객체는 사용자가 서버 첫 접속부터 세션 해제시까지 유효
             session.setAttribute("loginMember", member);
+            resp.sendRedirect(req.getContextPath() + "/");
         }
         else {
             //로그인 실패
             session.setAttribute("msg","아이디가 존재하지 않거나, 비밀번호가 틀립니다.");
+            resp.sendRedirect(req.getContextPath() + "/member/memberLogin"); // GET
         }
 
         // 4. view단 처리 (forwarding) || redirect 처리 (url을 변경해야할 때 사용함)
         // DML 요청(POST), 로그인 요청 등은 반드시 redirect로 처리해서 URL을 변경해야 한다
         // / 가 없으면 브라우저에서 붙여주는 과정을 추가한 뒤 실행되기에 마지막에 붙여주는 것이 좋다
-        resp.sendRedirect(req.getContextPath() + "/");
+        // resp.sendRedirect(req.getContextPath() + "/");
 
     }
 

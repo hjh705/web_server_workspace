@@ -5,6 +5,7 @@ import com.sh.mvc.member.model.entity.Member;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 public class MemberDao {
     public Member findById(SqlSession session, String id) {
@@ -47,4 +48,7 @@ public class MemberDao {
     }
 
 
+    public List<Member> searchMember(SqlSession session, Map<String, Object> param) {
+        return session.selectList("member.searchMember", param);
+    }
 }

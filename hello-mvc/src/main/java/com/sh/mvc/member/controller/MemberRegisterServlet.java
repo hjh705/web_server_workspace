@@ -1,5 +1,6 @@
 package com.sh.mvc.member.controller;
 
+import com.sh.mvc.common.HelloMvcUtils;
 import com.sh.mvc.member.model.entity.Gender;
 import com.sh.mvc.member.model.entity.Member;
 import com.sh.mvc.member.model.entity.Role;
@@ -33,7 +34,7 @@ public class MemberRegisterServlet extends HttpServlet {
         // 2. 사용자 입력값 가져오기
         // id, password, name, birthday, email, phone, gender, hobby
         String id = req.getParameter("id");
-        String password = req.getParameter("password");
+        String password = HelloMvcUtils.getEncryptedPassword(req.getParameter("password"), id);
         String name = req.getParameter("name");
         String _birthday = req.getParameter("birthday");
         String email = req.getParameter("email");

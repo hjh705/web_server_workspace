@@ -169,10 +169,10 @@ public class MemberServiceTest {
         //then 검증코드
         Member member2 = memberService.findById(id);
         assertThat(member2.getName()).isEqualTo(newName);
-        assertThat(member2.getName()).isEqualTo(newGender);
-        assertThat(member2.getName()).isEqualTo(newBirthday);
-        assertThat(member2.getName()).isEqualTo(newEmail);
-        assertThat(member2.getName()).isEqualTo(newPhone);
+        assertThat(member2.getGender()).isEqualTo(newGender);
+        assertThat(member2.getBirthday()).isEqualTo(newBirthday);
+        assertThat(member2.getEmail()).isEqualTo(newEmail);
+        assertThat(member2.getPhone()).isEqualTo(newPhone);
     }
 
     @Disabled
