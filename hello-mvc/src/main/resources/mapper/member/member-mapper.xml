@@ -107,4 +107,30 @@
             ${searchType} like '%' || #{searchKeyword} || '%'
     </select>
 
+    <select id="findAllPage" resultType="member">
+        select
+            *
+        from
+            member
+        order by
+            reg_date desc
+    </select>
+
+    <!-- resultType int 라면 _int 로 적어야함  -->
+    <!-- https://mybatis.org/mybatis-3/ko/configuration.html -->
+    <select id="member.getTotalCount" resultType="_int">
+        select
+            count(*)
+        from
+            member
+    </select>
+
+    <select id="member.getTotalCount2" resultType="_int">
+        select
+            count(*)
+        from
+            member
+        where
+            ${searchType} like '%' || #{searchKeyword} || '%'
+    </select>
 </mapper>

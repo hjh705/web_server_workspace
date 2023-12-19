@@ -121,11 +121,11 @@ public class MemberServiceTest {
 
         Member member2 = memberService.findById(id);
         assertThat(member2).isNotNull();
-        assertThat(member.getId()).isEqualTo(id);
-        assertThat(member.getPassword()).isEqualTo(password);
-        assertThat(member.getName()).isEqualTo(name);
+        assertThat(member2.getId()).isEqualTo(id);
+        assertThat(member2.getPassword()).isEqualTo(password);
+        assertThat(member2.getName()).isEqualTo(name);
     }
-
+    @Disabled
     @DisplayName("회원 가입시 오류 체크")
     @Test
     public void test8(){

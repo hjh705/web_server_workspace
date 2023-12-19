@@ -56,7 +56,7 @@
                             <a href="#" class="text-gray-900 hover:underline">About</a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-900 hover:underline">Post</a>
+                            <a href="${pageContext.request.contextPath}/board/boardList" class="text-gray-900 hover:underline">Board</a>
                         </li>
                         <%--관리자로 로그인한 경우에만 노출하기--%>
                         <c:if test="${loginMember.role == Role.A}">

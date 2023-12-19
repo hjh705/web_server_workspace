@@ -56,5 +56,79 @@ select * from member;
 --    id = 'qwerty';
 
 
+-- rnum을 통한 페이징 
+select
+    *
+from
+    (select
+        rownum rnum,
+        m.*
+    from (
+        select
+            *
+        from
+            member
+        order by
+            reg_date desc) m 
+    )
+where
+    rnum between 11 and 20;
+
+
+select
+    *
+from(  
+    select
+        row_number() over(order by reg_date desc) rnum,
+        m.*
+    from
+        member m
+    )
+where
+    rnum between 1 and 10;
+
+-- mybatis는 RowBounds를 사용하면 페이징 처리를 대신 해준다 
+-- page, limit 값을 mybatis에게 줘야만 한다  
+select
+    *
+from
+    member
+order by
+    reg_date desc;
+
+--전체 회원수
+select count(*) from member;
+
+-- 게시판 테이블
+create table board(
+    id number,
+    title varchar2(500),
+    member_id varchar2(15),
+    content varchar2(4000),
+    read_count number default 0,
+    reg_date date default sysdate,
+    constraints pk_board_id primary key(id),
+    constraints fk_board_member_id foreign key(member_id) references member(id) on delete set null
+);
+create sequence seq_board_id;
+
+-- 첨부파일을 서버컴퓨터에 저장, 저장된 파일에 대한 정보만 db테이블에 저장한다. 
+create table attachment (
+    id number,
+    board_id number not null,
+    original_filename varchar2(255) not null,-- 사용자가 업로드한 파일명
+    renamed_filename varchar2(255) not null, -- 저장된 파일명(uuid) - univeral unique id
+    reg_date date default sysdate,
+    constraints pk_attachment_id primary key(id),
+    constraints fk_attachment_board_id foreign key (board_id) references board(id) on delete cascade
+);
+create sequence seq_attachment_id;
+
+select * from board order by id desc;
+select * from attachment order by id desc;
+select count(*) from board;
+select * from board where id = 1234321;
+delete from board where id = 1234321;
 
 commit;
+       
