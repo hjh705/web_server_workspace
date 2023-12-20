@@ -2,6 +2,7 @@ package com.sh.mvc.board.model.service;
 
 
 import com.sh.mvc.board.model.entity.Board;
+import com.sh.mvc.board.model.vo.BoardVo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,7 +71,7 @@ public class BoardServiceTest {
         System.out.println(page);
         int limit = 10;
         Map<String, Object> param = Map.of("page",page, "limit", limit);
-        List<Board> boards = boardService.findAll(param);
+        List<BoardVo> boards = boardService.findAll(param);
         System.out.println(boards);
         assertThat(boards).isNotNull();
         assertThat(boards.size()).isLessThanOrEqualTo(limit);
@@ -100,7 +101,11 @@ public class BoardServiceTest {
         String memberId = "abcde";
         String content = "테스트입니다ㅏㅏㅏㅏㅏasdbfasd";
 
-        Board board = new Board(id, title, memberId, content,0, null);
+        BoardVo board = new BoardVo();
+        board.setTitle(title);
+        board.setContent(content);
+        board.setId(id);
+        board.setMemberId(memberId);
         int result = boardService.insertBoard(board);
         assertThat(result).isEqualTo(1);
 
@@ -114,10 +119,26 @@ public class BoardServiceTest {
 
     }
 
-    @DisplayName("게시글 수정")
+    @DisplayName("게시글 제목, 내용수정")
     @Test
     public void test7(){
+        // 수정할 객체 고르기
+        long id = 1234321;
+        Board board = boardService.findById(id);
+        //수정할 내용
+        String newTitle = "새제목테스트1234";
+        String newContent = "ghfhfffhffhfhfhfhfh";
+        //수정 내용 삽입
+        board.setTitle(newTitle);
+        board.setContent(newContent);
 
+        int result = boardService.updateBoard(board);
+        //값이 return되고 commit 되었는지 확인
+        assertThat(result).isGreaterThan(0);
+        //새로운 삽입값으로 설정한 내용이 제대로 삽입되었나 일치 확인
+        Board board2 = boardService.findById(id);
+        assertThat(board2.getTitle()).isEqualTo(newTitle);
+        assertThat(board2.getContent()).isEqualTo(newContent);
     }
 
     @DisplayName("게시글 삭제")

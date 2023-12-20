@@ -127,8 +127,41 @@ create sequence seq_attachment_id;
 select * from board order by id desc;
 select * from attachment order by id desc;
 select count(*) from board;
-select * from board where id = 1234321;
-delete from board where id = 1234321;
+select * from board where id = 0;
+delete from board where id = 64;
+delete from attachment where id = 60;
+
+-- 첨부파일이 있는 게시글 조회 
+select
+    b.*,
+    (select count(*) from attachment where board_id = b.id) attach_count
+from
+    board b;
+
+
+-- 게시글 상세보기
+-- 1. board 조회 + attachment 조회 
+select * from board where id = 60;
+select * from attachment where board_id = 60;
+
+-- 2. join 쿼리
+-- left join 해야 첨부파일이 없는 게시글도 전부 조회된다 
+select 
+    b.*,
+    a.id attach_id,
+    a.board_id board_id,
+    a.original_filename,
+    a.renamed_filename,
+    a.reg_date attach_reg_date
+from
+    board b left join attachment a
+        on b.id = a.board_id
+where
+    b.id = 60;
+    
+
+
+
 
 commit;
        

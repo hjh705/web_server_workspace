@@ -132,6 +132,7 @@ public class HelloMvcUtils {
         }
         // 2. 페이지 넘버
         while(pageNo <= pagebarEnd && pageNo <= totalPage){
+            // page의 수를 넘어서는 page 수가 입력되었을 때도 대비
             if(pageNo == page){
                 // 현재 페이지
                 pagebar.append(currentPageNo.formatted(url + pageNo, pageNo));
@@ -151,5 +152,9 @@ public class HelloMvcUtils {
             pagebar.append(next.formatted(url + pageNo));
         }
         return pagebar.toString();
+    }
+
+    public static String convertLineFeedToBr(String str) {
+        return str.replaceAll("\n", "<br/>");
     }
 }

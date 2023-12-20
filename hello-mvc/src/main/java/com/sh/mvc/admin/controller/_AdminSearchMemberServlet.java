@@ -13,10 +13,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-@WebServlet("/admin/searchMember")
-public class AdminSearchMemberServlet extends HttpServlet {
+// @WebServlet("/admin/searchMember")
+public class _AdminSearchMemberServlet extends HttpServlet {
     private MemberService memberService = new MemberService();
 
     /**
@@ -59,6 +58,7 @@ public class AdminSearchMemberServlet extends HttpServlet {
 
         // pagebar 영역
         int totalCount = memberService.getTotalCount(param); // 검색 조건에 맞는 총 객체 수
+        // 페이지가 넘어가도 검색조건을 유지하도록 구문 작성
         String url = req.getRequestURI() + "?search-type=" + searchType + "&search-keyword=" + searchKeyword ;
         String pagebar = HelloMvcUtils.getPagebar(page, limit, totalCount, url);
         req.setAttribute("pagebar",pagebar);

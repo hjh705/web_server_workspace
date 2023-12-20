@@ -98,39 +98,56 @@
     </delete>
 
     <!-- 식별자(컬럼, 테이블명) 작성 시 ${} 문법으로 작성. # 안쓰게 조심해야함! -->
-    <select id="searchMember" resultType="member">
-        select
-            *
-        from
-            member
-        where
-            ${searchType} like '%' || #{searchKeyword} || '%'
-    </select>
+    <!--<select id="searchMember" resultType="member">-->
+    <!--    select-->
+    <!--        *-->
+    <!--    from-->
+    <!--        member-->
+    <!--    where-->
+    <!--        ${searchType} like '%' || #{searchKeyword} || '%'-->
+    <!--</select>-->
+
+    <!--<select id="member.getTotalCount2" resultType="_int">-->
+    <!--    select-->
+    <!--        count(*)-->
+    <!--    from-->
+    <!--        member-->
+    <!--    where-->
+    <!--        ${searchType} like '%' || #{searchKeyword} || '%'-->
+    <!--</select>-->
 
     <select id="findAllPage" resultType="member">
         select
             *
         from
             member
+        <!-- where절의 선택적 사용을 위한 if문 -->
+        <!-- && 을 쓰면 오류발생. and로 해줘야함 -->
+        <if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != '' ">
+            where
+                ${searchType} like '%' || #{searchKeyword} || '%'
+        </if>
         order by
             reg_date desc
     </select>
 
     <!-- resultType int 라면 _int 로 적어야함  -->
     <!-- https://mybatis.org/mybatis-3/ko/configuration.html -->
+    <!--
+        where 태그 하위 if 구문이 하나라도 실행될 때만 where절을 작성하게 함
+        - where 다음에 and / or 연산자가 나오면 삭제처리 해줌
+        - 여러개의 if 구문 처리에 적합하다
+    -->
     <select id="member.getTotalCount" resultType="_int">
         select
             count(*)
         from
             member
+        <where>
+            <if test="searchType != null and searchType != '' and searchKeyword != null and searchKeyword != '' ">
+                    ${searchType} like '%' || #{searchKeyword} || '%'
+            </if>
+        </where>
     </select>
 
-    <select id="member.getTotalCount2" resultType="_int">
-        select
-            count(*)
-        from
-            member
-        where
-            ${searchType} like '%' || #{searchKeyword} || '%'
-    </select>
 </mapper>

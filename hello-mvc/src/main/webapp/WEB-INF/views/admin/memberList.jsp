@@ -19,7 +19,8 @@
         <h1 class="m-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
             회원관리
         </h1>
-        <form name="memberSearchFrm" action="${pageContext.request.contextPath}/admin/searchMember">
+        <%--form 에 아무것도 안적어줌 -> 기본타입 get, 현재 페이지 주소로 제출 --%>
+        <form name="memberSearchFrm">
             <div class="p-4 bg-white flex">
                 <select id="search-type" name="search-type" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-1.5">
                     <option value="" disabled selected>검색</option>

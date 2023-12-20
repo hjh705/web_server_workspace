@@ -75,8 +75,8 @@ public class MemberDao {
         // 건너뛸 회원 수를 설정해야함
         int offset = (page-1) * limit;
         RowBounds rowBounds = new RowBounds(offset,limit);
-        // null -> 쿼리에 전달할 값의 자리인데 지금은 없음
-        return session.selectList("member.findAllPage",null, rowBounds);
+        // 가운데 = 쿼리에 전달할 값의 자리
+        return session.selectList("member.findAllPage",param, rowBounds);
 
     }
 
@@ -85,6 +85,7 @@ public class MemberDao {
     }
 
     public int getTotalCount(SqlSession session, Map<String, Object> param) {
-        return session.selectOne("member.getTotalCount2", param);
+        // getTotalCount2를 안쓰고, getTotalCount 를 param값을 받을 수 있도록 수정함
+        return session.selectOne("member.getTotalCount", param);
     }
 }

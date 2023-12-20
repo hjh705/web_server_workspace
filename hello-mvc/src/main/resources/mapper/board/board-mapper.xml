@@ -4,63 +4,106 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
-    <select id="findAll" resultType="board">
+    <select id="findAll" resultType="boardVo">
         select
-            *
+            b.*,
+            (select count(*) from attachment where board_id = b.id) attach_count
         from
-            board
+            board b
         order by
             id desc
     </select>
 
-    <select id="findAllPage" resultType="board">
-        select
-            *
-        from
-            board
-        order by
-            reg_date desc
-    </select>
+    <!--<select id="findAllPage" resultType="board">-->
+    <!--    select-->
+    <!--        *-->
+    <!--    from-->
+    <!--        board-->
+    <!--    order by-->
+    <!--        reg_date desc-->
+    <!--</select>-->
 
-    <select id="board.getTotalCount" resultType="_int">
+    <select id="getTotalCount" resultType="_int">
         select
             count(*)
         from
             board
     </select>
 
-    <select id="board.findById" resultType="board">
+    <select id="findById" resultMap="boardVoMap">
         select
-            *
+            b.*,
+            a.id attach_id,
+            a.board_id,
+            a.original_filename,
+            a.renamed_filename,
+            a.reg_date attach_reg_date
         from
-            board
+            board b left join attachment a
+            on b.id = a.board_id
         where
-            id = #{id}
+            b.id = #{id}
     </select>
 
-    <insert id="insertMember">
+    <!--
+        mybatis를 이용해서 조인 쿼리
+        - resultType 대신 resultMap 사용
+        - 1:n 관계 <collection> 사용
+        - 1:1 관계 <association> 사용
+    -->
+    <resultMap id="boardVoMap" type="boardVo">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="member_id" property="memberId"/>
+        <result column="content" property="content"/>
+        <result column="read_count" property="readCount"/>
+        <result column="reg_date" property="regDate"/>
+        <collection property="attachments" ofType="attachment">
+            <id column="attach_id" property="id"/>
+            <result column="board_id" property="boardId"/>
+            <result column="original_filename" property="originalFilename"/>
+            <result column="renamed_filename" property="renamedFilename"/>
+            <result column="attach_reg_date" property="regDate"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertBoard">
         insert into
-        member
+            board (id, title, member_id, content)
         values(
-        #{id}, #{password}, #{name}, #{role}, #{gender}, #{birthday}, #{email}, #{phone},
-        #{hobby, typeHandler=listStringTypeHandler}, default, default
+        seq_board_id.nextval, #{title}, #{memberId}, #{content}
+        )
+        <selectKey order="AFTER" resultType="_int" keyProperty="id">
+            select seq_board_id.currval from dual
+        </selectKey>
+    </insert>
+
+    <insert id="insertAttachment">
+        insert into
+            attachment (id, board_id, original_filename, renamed_filename)
+        values(
+            seq_attachment_id.nextval,
+            #{boardId},
+            #{originalFilename},
+            #{renamedFilename}
         )
     </insert>
 
-    <insert id="board.insertBoard">
-        insert into
-            board
-        values(
-        #{id}, #{title}, #{memberId}, #{content}, default, default
-        )
-    </insert>
-
-
-    <delete id="board.deleteBoard">
+    <delete id="deleteBoard">
         delete from
            board
         where
             id = #{id}
     </delete>
+
+    <update id="updateBoard">
+        update
+            board
+        set
+            title = #{title},
+            content = #{content}
+        where
+            id = #{id}
+    </update>
 
 </mapper>
