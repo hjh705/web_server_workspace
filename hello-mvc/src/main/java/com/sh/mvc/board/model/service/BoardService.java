@@ -36,13 +36,37 @@ public class BoardService {
         return boards;
     }
 
+    // 조회수 상관 없이 게시글을 조회해야 하는 경우
     public BoardVo findById(long id) {
+        return findById(id, true);
+    }
+
+    public BoardVo findById(long id, boolean hasRead) {
         SqlSession session = getSqlSession();
-        BoardVo board = boardDao.findById(session, id);
-        session.close();
+        BoardVo board = null;
+        int result = 0;
+        try {
+            // 조회수 증가처리
+            if(!hasRead) // false 일 때만 증가 처리
+                result = boardDao.updateBoardReadCount(session, id);
+            //조회
+            board = boardDao.findById(session, id);
+            session.commit();
+        } catch (Exception e) {
+            session.rollback();
+            throw e;
+        }finally {
+            session.close();
+        }
         return board;
     }
 
+    /**
+     * 트랜잭션 관리
+     * - board 처리 후 attachments 처리
+     * @param board
+     * @return
+     */
     public int insertBoard(BoardVo board) {
         int result = 0;
         SqlSession session = getSqlSession();
@@ -58,9 +82,9 @@ public class BoardService {
                     result = boardDao.insertAttachment(session, attach);
                 }
             }
-            session.commit();
+            session.commit(); // 모두 성공해야 commit
         } catch (Exception e) {
-            session.rollback();
+            session.rollback(); // 하나라도 실패 시 rollback
             throw e;
         } finally {
             session.close();
@@ -85,12 +109,20 @@ public class BoardService {
         return result;
     }
 
-    public int updateBoard(Board board) {
+    public int updateBoard(BoardVo board) {
         int result = 0;
         SqlSession session = getSqlSession();
 
         try {
             result = boardDao.updateBoard(session, board);
+
+            List<Attachment> attachments = board.getAttachments();
+            if(!attachments.isEmpty()){
+                for(Attachment attach : attachments){
+                    attach.setBoardId(board.getId());
+                    result = boardDao.insertAttachment(session, attach);
+                }
+            }
             session.commit();
         } catch (Exception e) {
             session.rollback();
@@ -107,4 +139,6 @@ public class BoardService {
         session.close();
         return board;
     }
+
+
 }

@@ -65,13 +65,13 @@ public class BoardCreateServlet extends HttpServlet {
                 String name = item.getFieldName(); // input[name]
                 if (item.isFormField()) {
                     // 일반 텍스트필드 : Board 객체에 설정
-                    String value = item.getString("utf-8");
+                    String value = item.getString("utf-8"); // 인코딩 있어야 한글이 안깨짐
                     System.out.println(name + "=" + value);
                     // Board 객체에 설정자 로직을 구현
                     board.setValue(name, value);
                 } else {
                     // 파일 : 서버 컴퓨터에 저장, 파일 정보를 db에 저장
-                    if (item.getSize() > 0) {
+                    if (item.getSize() > 0) { // 비어있는 객체를 안넣기 위한 거름망
                         System.out.println(name);
                         String originalFilename = item.getName(); // 업로드한 파일명
                         System.out.println("파일 : " + originalFilename);

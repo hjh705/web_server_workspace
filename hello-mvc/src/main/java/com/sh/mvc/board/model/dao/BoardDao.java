@@ -52,4 +52,8 @@ public class BoardDao {
     public int insertAttachment(SqlSession session, Attachment attach) {
         return session.insert("board.insertAttachment", attach);
     }
+
+    public int updateBoardReadCount(SqlSession session, long id) {
+        return session.update("board.updateBoardReadCount", id);
+    }
 }

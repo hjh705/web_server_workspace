@@ -41,7 +41,7 @@
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${board.id}</th>
                     <td class="px-6 py-4">
                         <a href="${pageContext.request.contextPath}/board/boardDetail?id=${board.id}" class="hover:underine">
-                            ${board.title}
+                            ${fn:escapeXml(board.title)}
                         </a>
                     </td>
                     <td class="px-6 py-4">${board.memberId}</td>

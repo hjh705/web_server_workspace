@@ -36,7 +36,7 @@ public class BoardListServlet extends HttpServlet {
         // a. content영역 : 전체조회 쿼리 + RowBounds | Top-n분석 쿼리
         List<BoardVo> boards = boardService.findAll(param);
         req.setAttribute("boards", boards);
-        System.out.println(boards);
+        // System.out.println(boards);
 
         // b. pagebar영역
         int totalCount = boardService.getTotalCount();

@@ -14,15 +14,6 @@
             id desc
     </select>
 
-    <!--<select id="findAllPage" resultType="board">-->
-    <!--    select-->
-    <!--        *-->
-    <!--    from-->
-    <!--        board-->
-    <!--    order by-->
-    <!--        reg_date desc-->
-    <!--</select>-->
-
     <select id="getTotalCount" resultType="_int">
         select
             count(*)
@@ -33,17 +24,29 @@
     <select id="findById" resultMap="boardVoMap">
         select
             b.*,
+            m.name member_name,
             a.id attach_id,
             a.board_id,
             a.original_filename,
             a.renamed_filename,
             a.reg_date attach_reg_date
         from
-            board b left join attachment a
-            on b.id = a.board_id
+            board b
+                left join member m
+                    on b.member_id = m.id
+                left join attachment a
+                    on b.id = a.board_id
         where
             b.id = #{id}
     </select>
+    <update id="updateBoardReadCount">
+        update
+            board
+        set
+            read_count = read_count + 1
+        where
+            id = #{id}
+    </update>
 
     <!--
         mybatis를 이용해서 조인 쿼리
@@ -58,8 +61,12 @@
         <result column="content" property="content"/>
         <result column="read_count" property="readCount"/>
         <result column="reg_date" property="regDate"/>
+        <association property="member" javaType="member"> <!-- Member 가 javatype, member가 property   -->
+            <id column="member_id" property="id"/>
+            <result column="member_name" property="name"/>
+        </association>
         <collection property="attachments" ofType="attachment">
-            <id column="attach_id" property="id"/>
+            <id column="attach_id" property="id"/> <!-- id 식별 컬럼 -->
             <result column="board_id" property="boardId"/>
             <result column="original_filename" property="originalFilename"/>
             <result column="renamed_filename" property="renamedFilename"/>

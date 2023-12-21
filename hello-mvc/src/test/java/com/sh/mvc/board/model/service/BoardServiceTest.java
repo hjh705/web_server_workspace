@@ -124,7 +124,7 @@ public class BoardServiceTest {
     public void test7(){
         // 수정할 객체 고르기
         long id = 1234321;
-        Board board = boardService.findById(id);
+        BoardVo board = boardService.findById(id);
         //수정할 내용
         String newTitle = "새제목테스트1234";
         String newContent = "ghfhfffhffhfhfhfhfh";
