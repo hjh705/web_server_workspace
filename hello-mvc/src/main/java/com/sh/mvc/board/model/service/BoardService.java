@@ -3,6 +3,7 @@ package com.sh.mvc.board.model.service;
 import com.sh.mvc.board.model.dao.BoardDao;
 import com.sh.mvc.board.model.entity.Attachment;
 import com.sh.mvc.board.model.entity.Board;
+import com.sh.mvc.board.model.entity.BoardComment;
 import com.sh.mvc.board.model.vo.BoardVo;
 import org.apache.ibatis.session.SqlSession;
 
@@ -51,6 +52,9 @@ public class BoardService {
                 result = boardDao.updateBoardReadCount(session, id);
             //조회
             board = boardDao.findById(session, id);
+            List<BoardComment> comments = boardDao.findCommentByBoardId(session,id);
+            board.setComments(comments);
+
             session.commit();
         } catch (Exception e) {
             session.rollback();
@@ -116,10 +120,18 @@ public class BoardService {
         try {
             result = boardDao.updateBoard(session, board);
 
+            // attachment테이블 삭제
+            List<Long> delFiles = board.getDelFiles();
+            if(!delFiles.isEmpty()){
+                for(Long id : delFiles){
+                    result = boardDao.deleteAttachment(session, id);
+                }
+            }
+
             List<Attachment> attachments = board.getAttachments();
             if(!attachments.isEmpty()){
                 for(Attachment attach : attachments){
-                    attach.setBoardId(board.getId());
+                    attach.setBoardId(board.getId()); // fk 등록 (어떤 게시글의 첨부파일인지 알 수 있도록)
                     result = boardDao.insertAttachment(session, attach);
                 }
             }
@@ -141,4 +153,18 @@ public class BoardService {
     }
 
 
+    public int insertBoardComment(BoardComment comment) {
+        int result = 0;
+        SqlSession session = getSqlSession();
+        try {
+            result = boardDao.insertBoardComment(session,comment);
+            session.commit();
+        } catch (Exception e) {
+            session.rollback();
+            throw e;
+        }finally {
+            session.close();
+        }
+        return result;
+    }
 }

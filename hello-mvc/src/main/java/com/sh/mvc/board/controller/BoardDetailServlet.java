@@ -43,7 +43,8 @@ public class BoardDetailServlet extends HttpServlet {
 
         //조회
         BoardVo board = boardService.findById(id, hasRead);
-        // System.out.println(board);
+
+        System.out.println(board);
 
         // xss 공격 대비 escapeHtml 처리
         String safeHtml = HelloMvcUtils.escapeHtml(board.getContent());
@@ -51,7 +52,12 @@ public class BoardDetailServlet extends HttpServlet {
         board.setContent(HelloMvcUtils.convertLineFeedToBr(safeHtml));
         req.setAttribute("board", board);
 
-        // 응답 쿠키 생성
+        /**
+         * 응답 쿠키 생성
+         * 만료시간 쿠키 종류
+         * - session cookie -1 지정한 경우, session 만료 시 쿠키 자동삭제
+         * - persistant cookie n초 지정한 경우 n초동안 보관
+         */
         if(!hasRead) { // false 일 때만 작동
             boardCookieValues.add(String.valueOf(id)); // 현재 게시글 id를 추가
             String value = String.join("/", boardCookieValues); // [12, 34, 56] -> "12/34/56"
@@ -68,6 +74,7 @@ public class BoardDetailServlet extends HttpServlet {
     private List<String> getBoardCookieValues(Cookie[] cookies) {
         List<String> boardCookieValues = new ArrayList<>();
         if (cookies != null){
+            // Arrays.asList 로 생성 시 immutable(변경불가) 하기 때문에 별도로 배열을 생성시켜서 만들어줘야만함
             for(Cookie cookie : cookies){
                 String name = cookie.getName();
                 String value = cookie.getValue();

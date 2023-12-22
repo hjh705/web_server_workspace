@@ -50,17 +50,26 @@ public class BoardUpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 0. 세팅
         // DiskFileItemFactory - ServletFileUpload
+        // 파일 업로드를 위해 enctype = multipart/form/data 형식으로 전달하면, 기존 parameter 형식으론 값을 전달할 수 없음
+        // 파일이 저장될 주소 - 무조건 절대주소로 줘야함
+        // fileItem 안에 name, content, upFile 이 각각 fileItem 객체 하나로 각각 저장되어있다.
         File repository = new File("/Users/hanjunhee/WorkSpaces/web_server_workspace/hello-mvc/src/main/webapp/upload/board");
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setRepository(repository);
-        factory.setSizeThreshold(10*1024*1024);
+        factory.setSizeThreshold(10*1024*1024); // 10mb
         ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
         BoardVo board = new BoardVo();
         // 1. 사용자 입력값 처리
         try {
             List<FileItem> fileItemList = servletFileUpload.parseRequest(req);
-            for (FileItem fileItem : fileItemList) {
+            for (FileItem fileItem : fileItemList) { // 반복문
+                // FieldName = input tag의 name값
                 String name = fileItem.getFieldName();
+                /**
+                 * 기존 board.setId
+                 *          .setName
+                 * 식으로 수기로 작성하던걸 setValue로 자동설정하게 switch 처리했다.
+                 */
                 if (fileItem.isFormField()) {
                     // form field
                     String value = fileItem.getString("utf-8");
@@ -68,6 +77,7 @@ public class BoardUpdateServlet extends HttpServlet {
                 } else {
                     // file
                     if (fileItem.getSize() > 0) {
+                        // getName = 파일의 실제 이름 가져오기
                         String originalFilename = fileItem.getName();
                         int dotIndex = originalFilename.lastIndexOf(".");
                         String ext = dotIndex > -1 ? originalFilename.substring(dotIndex) : "";
@@ -85,9 +95,12 @@ public class BoardUpdateServlet extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        System.out.println(board);
 
         // 2. 업무로직
+        // board테이블 수정
         int result = boardService.updateBoard(board);
+
 
         req.getSession().setAttribute("msg", "게시물을 성공적으로 수정했습니다.😁");
         // 3. redirect

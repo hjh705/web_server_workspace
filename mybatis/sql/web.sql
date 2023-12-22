@@ -176,7 +176,76 @@ from
 where
     b.id = 70;
 
+-- 댓글 기능 구현
+create table board_comment (
+    id number,
+    board_id number,
+    member_id varchar2(20),
+    content varchar2(2000),
+    comment_level number default 1,-- 댓글인 경우 1, 대댓글인 경우 2
+    parent_comment_id number,-- 댓글인 경우 null, 대댓글인 경우 부모 댓글 id 
+    reg_date date default sysdate,
+    constraints pk_board_comment_id primary key(id),
+    constraints fk_board_comment_board_id foreign key(board_id) references board(id) on delete cascade,
+    constraints fk_board_comment_member_id foreign key(member_id) references member(id) on delete set null,
+    constraints fk_board_parent_comment_id foreign key(parent_comment_id) references board_comment(id) on delete cascade -- 댓글 삭제시 대댓글까지 삭제되도록 
+    
+);
+create sequence seq_board_comment_id;
 
+--59번 게시판 댓글 데이터 
+insert into board_comment
+values(seq_board_comment_id.nextval, 59, 'qwerty', '에베베베베', default, null, default);
+insert into board_comment
+values(seq_board_comment_id.nextval, 59, 'opqr', '베베벱벱베', default, null, default);
+insert into board_comment
+values(seq_board_comment_id.nextval, 59, 'abcde', '호로롤로로로로', default, null, default);
+--대댓글 
+insert into board_comment
+values(seq_board_comment_id.nextval, 59, 'admin', '대댓글따림ㅁㅁ', 2, 1, default);
+insert into board_comment
+values(seq_board_comment_id.nextval, 59, 'admin', '베레베레베렙ㅂ', 2, 2, default);
+insert into board_comment
+values(seq_board_comment_id.nextval, 59, 'abcde', '델데델데데베뎁', 2, 2, default);
+insert into board_comment
+values(seq_board_comment_id.nextval, 59, 'admin', '로로로로롤호로롤', 2, 3, default);
+
+select * from board_comment;
+
+-- 계층형 쿼리
+-- 행과 행을 부모/자식 관계로 연결해서 tree 구조의 순서로 결과집합을 반환해줌 
+-- 계층 구조의 데이터 표현에 적합. 댓글, 조직도, 메뉴 등 
+
+-- start with 루트 부모행을 지정하는 조건절
+-- connect by 부모/자식을 연결하는 조건절. prior 를 부모행 컬럼 앞에 작성 
+-- level 이라는 가상 컬럼(계층 레벨) 제공 
+-- order silblings by 컬럼 계층형 쿼리 전용 정렬 
+select
+    *
+from
+    board_comment
+where
+    board_id = 59
+start with 
+    comment_level =1
+connect by
+    prior id = parent_comment_id
+order siblings by -- 그냥 order by 하면 결과가 뭉개짐 
+    id;
+
+-- sql 에서 들여쓰기 해서 보기 
+select
+    lpad(' ', (level - 1) * 5)|| content,
+    member_id,
+    level
+from
+    board_comment
+where
+    board_id = 59
+start with
+    comment_level = 1
+connect by
+    parent_comment_id = prior id;
 
 commit;
        

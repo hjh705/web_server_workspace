@@ -113,4 +113,63 @@
             id = #{id}
     </update>
 
+    <delete id="deleteAttachment">
+        delete from
+            attachment
+        where
+            id = #{id}
+    </delete>
+
+    <select id="findCommentByBoardId" resultType="boardComment">
+        select
+            *
+        from
+            board_comment
+        where
+            board_id = #{boardId}
+        start with
+            comment_level =1
+        connect by
+            prior id = parent_comment_id
+        order siblings by
+            id
+    </select>
+
+    <insert id="insertBoardComment">
+        insert into
+            board_comment
+        values(
+            seq_board_comment_id.nextval,
+            #{boardId},
+            #{memberId},
+            #{content},
+            #{commentLevel},
+            #{parentCommentId},
+            default
+        )
+        <!-- 추출할 값을 설정 -> 이 값으로 searchCommentById 할 예정  -->
+        <selectKey order="AFTER" resultType="_Long" keyProperty="id">
+            select
+                seq_board_comment_id.currval
+            from
+                dual
+        </selectKey>
+    </insert>
+
+    <select id="findCommentById" resultType="boardComment">
+        select
+            *
+        from
+            board_comment
+        where
+            id = #{id}
+    </select>
+
+    <delete id="deleteBoardComment">
+        delete from
+            board_comment
+        where
+            id = #{id}
+    </delete>
+
 </mapper>
