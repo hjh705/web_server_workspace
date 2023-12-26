@@ -65,6 +65,8 @@
                     <label for="content" class="sr-only">댓글 작성하기</label>
                     <textarea id="content" rows="4"
                               name="content"
+                              <%-- 아이디 값 가져오는 el문은 무조건 홑따옴표로 감싸줘야한다.
+                                    || = 간단한 부정문. 해당 값이 비어있을 때 작동 --%>
                               onclick="'${loginMember.id}' || alert('로그인 후 댓글을 작성하세요');"
                               class="resize-none w-full px-0 text-sm text-gray-900 bg-white border-0" placeholder="댓글을 작성하세요" required></textarea>
                 </div>

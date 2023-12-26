@@ -1,12 +1,10 @@
 package com.sh.mvc.board.model.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
  * entity 클래스
  * - db 테이블과 매칭되는 클래스
- * 
  */
 public class Board {
     private long id;

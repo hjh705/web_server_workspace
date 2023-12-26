@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="datasource.properties"></properties>
+
+    <settings>
+        <!-- NULL 데이터가 전달된 경우 NULL 값 처리 -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <!-- member_name컬럼은 memberName과 매칭  -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!-- 반복해서 달아주는 구문을 단축해서 쓰기 위해 작성  -->
+    <typeAliases>
+<!--        <typeAlias type="com.sh.mvc.member.model.entity.Member" alias="member"/>-->
+    <!--
+         package 하위 모든 클래스가 소문자로 시작되는 별칭으로 등록
+         - Member -> member
+         - MemberAddress -> memberAddress
+    -->
+            <package name="com.sh.ajax"/>
+    </typeAliases>
+
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+            <!--
+            POOLED DBCP 설정(Database Connection Pool)
+            - 매번 Connection 생성/폐기하면 효율성이 떨어지므로, Connection 다수개를 생성해서 Pool에서 관리
+              사용 후 반납하면 폐기하지 않고 이후 재사용하게 된다.
+            -->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/student/student-mapper.xml"/>
+    </mappers>
+</configuration>

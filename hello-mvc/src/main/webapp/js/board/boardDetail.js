@@ -34,6 +34,7 @@ document.querySelectorAll(".btn-reply").forEach((button) =>{
     button.addEventListener('click', (e) => {
         console.log(e.target.value); // 댓글 id
         console.log(e.target.dataset); // 댓글 id
+        // dataset을 통해 contextPath, boardId, loginMemberId 값을 js로 가져오기
         const parentCommentId = e.target.value;
         const {contextPath, boardId, loginMemberId} = e.target.dataset;
         <!-- 대댓글 입력폼 tr-->
@@ -61,7 +62,7 @@ document.querySelectorAll(".btn-reply").forEach((button) =>{
         const tr = e.target.parentElement.parentElement;
         console.log(tr);
         /**
-         * insertAdjacentHTML
+         * insertAdjacentHTML | insertAdjacentText | insertAdjacentElement
          * beforebegin 이전 형제요소로 추가
          * afterbegin 첫번째 자식요소로 추가
          * beforeend 마지막 자식요소로 추가
