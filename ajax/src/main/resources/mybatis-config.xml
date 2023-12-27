@@ -42,5 +42,6 @@
     </environments>
     <mappers>
         <mapper resource="mapper/student/student-mapper.xml"/>
+        <mapper resource="mapper/celeb/celeb-mapper.xml"/>
     </mappers>
 </configuration>

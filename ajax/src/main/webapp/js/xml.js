@@ -31,3 +31,32 @@ document.querySelector("#btn1").onclick = () =>{
         }
     })
 }
+
+document.querySelector("#btn-celeb").addEventListener('click', (e) => {
+    $.ajax({
+        url : `${contextPath}/xml/celeb/findAll`,
+        method : "get",
+        dataType: "xml",
+        success(xmlDoc) {
+            console.log(xmlDoc)
+            const tbody = document.querySelector("#celebs tbody");
+
+            const celebs = xmlDoc.querySelectorAll("Celeb");
+            celebs.forEach((celeb) => {
+                const [id, profile, name, type] = celeb.children;
+                console.log(id,profile,name,type);
+                tbody.innerHTML += `
+                <tr>
+                    <td>${id.textContent}</td>
+                    <td>
+                        <img src="${contextPath}/images/celeb/${profile.textContent}" alt="">
+                    </td>
+                    <td>${name.textContent}</td>
+                    <td>${type.textContent}</td>
+                </tr>`;
+
+            })
+        }
+
+    });
+});

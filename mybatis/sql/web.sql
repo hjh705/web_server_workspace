@@ -124,6 +124,8 @@ create table attachment (
 );
 create sequence seq_attachment_id;
 
+
+
 select * from board order by id desc;
 select * from attachment order by id desc;
 select count(*) from board;

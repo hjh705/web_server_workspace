@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="celeb">
+    <select id="findAll" resultType="celeb">
+        select
+            *
+        from
+            celeb
+        order by
+            id desc
+    </select>
+
+    <select id="findById" resultType="celeb">
+        select
+            *
+        from
+            celeb
+        where
+            id = #{id}
+    </select>
+
+    <insert id="insertCeleb">
+        insert into
+            celeb
+        values(
+               seq_celeb_id.nextval,
+               #{name},
+               #{profile},
+               #{type} )
+        <selectKey order="AFTER" resultType="_long" keyProperty="id">
+            select seq_celeb_id.currval from dual
+        </selectKey>
+    </insert>
+
+    <update id="updateCeleb">
+        update
+            celeb
+        set
+            name = #{name},
+            profile = #{profile},
+            type = #{type}
+        where
+            id = #{id}
+    </update>
+    <delete id="deleteCeleb">
+        delete from
+                   celeb
+               where
+                   id = #{id}
+    </delete>
+</mapper>

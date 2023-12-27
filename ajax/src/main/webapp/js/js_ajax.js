@@ -1,5 +1,6 @@
 const getXMLHttpRequest = () => new XMLHttpRequest();
 /**
+ * 구조 이해용으로 작성. 실제 사용 시엔 text.js 형식으로 사용
  * XMLHttpRequest
  * - readyState
  *   - 0 : 시작 전
