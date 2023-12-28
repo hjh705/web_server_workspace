@@ -250,4 +250,80 @@ connect by
     parent_comment_id = prior id;
 
 commit;
-       
+
+-- 사진 게시판 (더보기 페이징)
+create table photo (
+    id number,
+    member_id varchar2(15),
+    content varchar2(4000),
+    original_filename varchar2(100),
+    renamed_filename varchar2(100),
+    read_count number default 0,
+    reg_date date default sysdate,
+    constraints pk_photo_id primary key (id),
+    constraints fk_photo_id foreign key(member_id) references member(id) on delete set null
+);
+--drop table photo;
+create sequence seq_photo_id;
+
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','하와이 가는 하늘길~','adult-adventure-aircraft-443430.jpg','20220418_174158873_108.jpg',107,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','프랑스산 와인 시음회 :)','adult-alcohol-blur-290316.jpg','20220418_174412447_349.jpg',18,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','adventure-albay-clouds-672358.jpg','20220418_174453770_556.jpg',99,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','airplane-apartment-architecture-364245.jpg','20220418_174505657_4.jpg',12,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','america-architecture-billboards-461903.jpg','20220418_174516697_101.jpg',192,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','ancient-architecture-building-415980.jpg','20220418_174527327_327.jpg',82,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','arch-architecture-art-332208.jpg','20220418_174539548_250.jpg',73,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','자나깨나 차조심, 트램조심','architecture-avenue-blur-258447.jpg','20220418_174601509_281.jpg',103,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','architecture-background-buildings-698604.jpg','20220418_174616171_833.jpg',102,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','architecture-barcelona-blue-sky-819764.jpg','20220418_174652399_241.jpg',to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','architecture-basilica-buildings-326709.jpg','20220418_174743637_226.jpg',88,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','architecture-building-door-206767.jpg','20220418_174800692_837.jpg',234,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','atmosphere-beautiful-cloudburst-531318.jpg','20220418_174814411_4.jpg',81,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','이과수이과수','back-beach-beautiful-670060.jpg','20220418_174839106_197.jpg',77,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','bicycle-tour-bicycles-bicyclists-17729.jpg','20220418_174856071_779.jpg',222,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','billboard-business-city-733778.jpg','20220418_174910053_722.jpg',204,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','black-clouds-dark-420885.jpg','20220418_174924429_849.jpg',103,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','boulders-clouds-daylight-464440.jpg','20220418_174941759_108.jpg',47,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','여행은 즐거워','capital-cathedral-city-6502.jpg','20220418_174957191_842.jpg',52,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','퐈이아아아아아','evening-fair-fire-65297.jpg','20220418_175019576_86.jpg',45,to_date('18-04-22','DD-MM-RR'));
+Insert into WEB.PHOTO (ID,MEMBER_ID,CONTENT,ORIGINAL_FILENAME,RENAMED_FILENAME,READ_COUNT,REG_DATE) values (SEQ_PHOTO_ID.NEXTVAL,'abcde','소나무야','375px-Pinus_densiflora_Kumgangsan.jpg','20220418_125936088_36.jpg',23,to_date('18-04-22','DD-MM-RR'));
+
+commit;
+
+select * from photo order by id desc;
+
+-- 알림 테이블 생성
+create table notification (
+    id number,
+    member_id varchar2(15) not null,
+    type varchar2(100) not null,
+    content varchar2(2000) not null,
+    checked number default 0,
+    reg_date date default sysdate,
+    constraints pk_notification_id primary key (id),
+    constraints fk_notification_member_id foreign key(member_id) references member(id) on delete set null,
+    constraints ck_notification_type check (type in ('NEW_COMMENT', 'DM', 'NEW_FOLLOWER', 'NEW_CONTENT'))
+);
+create sequence seq_notification_id;
+drop sequence seq_notificaation_id;
+
+insert into notification
+values (seq_notification_id.nextval, 'qwerty', 'NEW_COMMENT', 'xxx 게시글에 새 댓글이 달렸습니다.', default, default);
+insert into notification
+values (seq_notification_id.nextval, 'qwerty', 'DM', 'admin 이 DM을 보냈습니다.', default, default);
+insert into notification
+values (seq_notification_id.nextval, 'abcde', 'NEW_CONTENT', 'qwerty가 새 게시글을 등록했습니다.', default, default);
+
+select * from notification;
+
+-- 조회 : 특정 회원의 확인 안된 알림 조회
+select 
+    *
+from
+    notification
+where
+    member_id = 'qwerty'
+    and
+    checked = 0
+order by
+    id desc;

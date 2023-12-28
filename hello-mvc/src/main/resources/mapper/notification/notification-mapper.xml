@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notification">
+    <insert id="insertNotification">
+        insert into
+            notification
+        values (
+                seq_notification_id.nextval,
+                #{memberId},
+                #{type},
+                #{content},
+                default,
+                default
+               )
+    </insert>
+
+    <select id="findByMemberId" resultType="notification">
+        select
+            *
+        from
+            notification
+        where
+            member_id = #{memberId}
+            and
+            checked = 0
+        order by
+            id desc
+    </select>
+  
+</mapper>
